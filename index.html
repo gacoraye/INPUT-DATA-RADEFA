@@ -1,1 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Input Nama & Grup</title>
+  <style>
+    body {
+      background-color: #0c0a0a;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
+    }
+    #form-container {
+      width: 400px;
+      padding: 20px;
+      background-color: #1f1f1f;
+      border: 2px solid #da0808;
+      border-radius: 10px;
+    }
+    h2 {
+      text-align: center;
+      color: #1E90FF;
+      margin-bottom: 20px;
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #1E90FF;
+      color: #fff;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #004B8D;
+    }
+  </style>
+</head>
+<body>
+  <div id="form-container">
+    <h2>Daftar Nama & Grup</h2>
+    <form id="dataForm">
+      <label for="grup">Grup:</label>
+      <select id="grup" name="grup" required>
+        <option value="">Pilih Grup</option>
+        <option value="Group A">Group A</option>
+        <option value="Group B">Group B</option>
+        <option value="Group C">Group C</option>
+      </select>
 
+      <label for="nama">Nama:</label>
+      <input type="text" id="nama" name="nama" placeholder="Masukkan nama" required>
+
+      <input type="submit" value="Simpan Data">
+    </form>
+  </div>
+<script>
+const form = document.getElementById('dataForm');
+
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const formData = new FormData(form);
+  const params = new URLSearchParams(formData);
+
+  fetch('https://script.google.com/macros/s/AKfycbw8r-eEI14PWu2u0g4OkNN22aA3D0J6GHN2eOgKzHSVlCz8kteb7SIxl6UaK2xZYn-1mQ/exec', {
+    method: 'POST',
+    body: params
+  })
+  .then(async res => {
+    // Cek status response
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`HTTP error! Status: ${res.status}, Response: ${text}`);
+    }
+    return res.text();
+  })
+  .then(msg => alert("Success: " + msg))
+  .catch(err => {
+    // Tampilkan info error lengkap
+    alert("Fetch Error: " + err.message);
+    console.error("Detail Error:", err);
+  });
+});
+</script>
+
+</body>
+</html>
